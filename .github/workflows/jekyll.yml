@@ -31,7 +31,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       # Step 1: Install dependencies
@@ -45,12 +45,12 @@ jobs:
         run: |
           git clone https://github.com/rbenv/ruby-build.git ~/.ruby-build
           export PATH="$HOME/.ruby-build/bin:$PATH"
-          ruby-build 3.1.4 /opt/hostedtoolcache/Ruby/3.1.4/x64
+          ruby-build 3.1.4 $RUNNER_TOOL_CACHE/Ruby/3.1.4/x64
 
       # Step 3: Mark Ruby installation as complete
       - name: Mark Ruby as installed
         run: |
-          touch /opt/hostedtoolcache/Ruby/3.1.4/x64.complete
+          touch $RUNNER_TOOL_CACHE/Ruby/3.1.4/x64.complete
 
       # Step 4: Install Bundler
       - name: Install Bundler
@@ -60,18 +60,19 @@ jobs:
       - name: Install Ruby gems
         run: bundle install
 
+      # Step 6: Setup Pages for GitHub Pages deployment
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
 
+      # Step 7: Build with Jekyll
       - name: Build with Jekyll
-        # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
 
+      # Step 8: Upload artifact for GitHub Pages deployment
       - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v3
 
   # Deployment job
