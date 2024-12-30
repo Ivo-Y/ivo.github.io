@@ -14,7 +14,7 @@ gem 'csv' # Explicitly add CSV gem
 gem 'base64' # Explicitly add Base64 gem
 
 # Other gems required for your project
-gem 'jekyll-feed'
+
 gem 'jekyll-seo-tag'
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
 # uncomment the line below. To upgrade, run `bundle update github-pages`.
